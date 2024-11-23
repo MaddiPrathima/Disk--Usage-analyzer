@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Function to analyze disk usage
+analyze_disk_usage() {
+    echo "Analyzing disk usage in directory: $1"
+    echo "--------------------------------------------"
+    # List the largest files and directories in the specified directory
+    du -ah "$1" 2>/dev/null | sort -rh | head -n "$2"
+    echo "--------------------------------------------"
+}
+
+# Main script
+echo "Disk Usage Analyzer"
+read -p "Enter the directory to analyze (default: current directory): " directory
+directory=${directory:-.}  # Default to the current directory if none is entered
+
+read -p "Enter the number of largest items to display: " item_count
+
+if [ -d "$directory" ]; then
+    # Call the function to analyze disk usage
+    analyze_disk_usage "$directory" "$item_count"
+else
+    echo "Error: Directory not found. Please provide a valid directory."
+fi
+
+echo "Analysis completed."
